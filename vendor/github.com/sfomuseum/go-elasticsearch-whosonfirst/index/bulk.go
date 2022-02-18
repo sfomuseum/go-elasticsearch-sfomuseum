@@ -12,7 +12,7 @@ import (
 	"github.com/elastic/go-elasticsearch/v7/esutil"
 	"github.com/sfomuseum/go-flags/flagset"
 	"github.com/sfomuseum/go-flags/lookup"
-	"github.com/sfomuseum/go-whosonfirst-elasticsearch/document"
+	"github.com/sfomuseum/go-elasticsearch-whosonfirst/document"
 	"github.com/tidwall/gjson"
 	"github.com/whosonfirst/go-whosonfirst-iterate/v2/emitter"
 	"github.com/whosonfirst/go-whosonfirst-iterate/v2/iterator"

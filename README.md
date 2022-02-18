@@ -30,4 +30,4 @@ $> ./bin/es-sfomuseum-index -h
 
 ## See also
 
-* https://github.com/sfomuseum/go-whosonfirst-elasticsearch
+* https://github.com/sfomuseum/go-elasticsearch-whosonfirst

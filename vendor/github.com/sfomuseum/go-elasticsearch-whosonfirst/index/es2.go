@@ -11,7 +11,7 @@ import (
 	"fmt"
 	// "github.com/cenkalti/backoff/v4"
 	"github.com/sfomuseum/go-flags/lookup"
-	"github.com/sfomuseum/go-whosonfirst-elasticsearch/document"
+	"github.com/sfomuseum/go-elasticsearch-whosonfirst/document"
 	"github.com/tidwall/gjson"
 	"github.com/whosonfirst/go-whosonfirst-edtf"
 	"github.com/whosonfirst/go-whosonfirst-iterate/v2/iterator"

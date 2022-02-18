@@ -10,7 +10,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/sfomuseum/go-flags/flagset"
-	"github.com/sfomuseum/go-whosonfirst-elasticsearch/index"
+	"github.com/sfomuseum/go-elasticsearch-whosonfirst/index"
 	"log"
        "github.com/tidwall/gjson"
        "github.com/tidwall/sjson"

@@ -3,8 +3,8 @@ module github.com/sfomuseum/go-elasticsearch-sfomuseum
 go 1.17
 
 require (
+	github.com/sfomuseum/go-elasticsearch-whosonfirst v1.0.0
 	github.com/sfomuseum/go-flags v0.8.2
-	github.com/sfomuseum/go-whosonfirst-elasticsearch v0.5.0
 	github.com/tidwall/gjson v1.14.0
 	github.com/tidwall/sjson v1.2.4
 	github.com/whosonfirst/go-whosonfirst-iterate-git/v2 v2.1.0
