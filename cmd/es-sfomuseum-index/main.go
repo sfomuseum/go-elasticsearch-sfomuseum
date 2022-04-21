@@ -10,10 +10,12 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/sfomuseum/go-flags/flagset"
+	"github.com/sfomuseum/go-sfomuseum-instagram/media"
 	"github.com/sfomuseum/go-whosonfirst-elasticsearch/index"
+	"github.com/tidwall/gjson"
+	"github.com/tidwall/sjson"
 	"log"
-       "github.com/tidwall/gjson"
-       "github.com/tidwall/sjson"
+	"time"
 )
 
 func main() {
@@ -40,22 +42,43 @@ func main() {
 
 	sfom_f := func(ctx context.Context, body []byte) ([]byte, error) {
 
-		var err error
-		
 		im_rsp := gjson.GetBytes(body, "millsfield:images")
 
-		if im_rsp.Exists(){
-			
-			count :=  len(im_rsp.Array())
-			
+		if im_rsp.Exists() {
+
+			count := len(im_rsp.Array())
+
 			body, err = sjson.SetBytes(body, "millsfield:count_images", count)
-			
+
 			if err != nil {
 				return nil, fmt.Errorf("Failed to assign millsfield:count_images, %w", err)
 			}
 		}
-		
-		 return body, err
+
+		// Instagram stuff
+		// tl;dr is "convert IG's goofy datetime strings in RFC3339 so that Elasticsearch isn't sad"
+		// See also: sfomuseum/go-sfomuseum-instagram and sfomuseum/go-sfomuseum-instagram-publish
+
+		ig_rsp := gjson.GetBytes(body, "instagram:post")
+
+		if ig_rsp.Exists() {
+
+			taken_rsp := gjson.GetBytes(body, "instagram:post.taken_at")
+
+			t, err := time.Parse(media.TIME_FORMAT, taken_rsp.String())
+
+			if err != nil {
+				return nil, fmt.Errorf("Failed to parse '%s', %w", taken_rsp.String(), err)
+			}
+
+			body, err = sjson.SetBytes(body, "instagram:post.taken_at", t.Format(time.RFC3339))
+
+			if err != nil {
+				return nil, err
+			}
+		}
+
+		return body, nil
 	}
 
 	opts.PrepareFuncs = append(opts.PrepareFuncs, sfom_f)
