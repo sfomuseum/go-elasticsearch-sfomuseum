@@ -15,6 +15,7 @@ import (
 	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
 	"log"
+	"strings"
 	"time"
 )
 
@@ -76,6 +77,25 @@ func main() {
 			if err != nil {
 				return nil, err
 			}
+
+			tags_rsp := gjson.GetBytes(body, "instagram:post.caption.hashtags")
+
+			if tags_rsp.Exists() {
+
+				hashtags := make([]string, 0)
+
+				for _, t := range tags_rsp.Array() {
+					hashtags = append(hashtags, strings.ToLower(t.String()))
+				}
+
+				body, err = sjson.SetBytes(body, "instagram:post.caption.hashtags", hashtags)
+
+				if err != nil {
+					return nil, fmt.Errorf("Failed to update IG hash tags, %w", err)
+				}
+
+			}
+
 		}
 
 		return body, nil
