@@ -56,6 +56,29 @@ func main() {
 			}
 		}
 
+		texts_rsp := gjson.GetBytes(body, "millsfield:images_texts")
+
+		if texts_rsp.Exists() {
+
+			texts_array := texts_rsp.Array()
+			texts_count := len(texts_array)
+
+			if texts_count > 0 {
+
+				texts := make([]string, texts_count)
+
+				for idx, t := range texts_array {
+					texts[idx] = t.String()
+				}
+
+				body, err = sjson.SetBytes(body, "millsfield:images_texts", texts)
+
+				if err != nil {
+					return nil, fmt.Errorf("Failed to assign millsfield:images_texts, %w", err)
+				}
+			}
+		}
+
 		// Instagram stuff
 		// tl;dr is "convert IG's goofy datetime strings in RFC3339 so that Elasticsearch isn't sad"
 		// See also: sfomuseum/go-sfomuseum-instagram and sfomuseum/go-sfomuseum-instagram-publish
